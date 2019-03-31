@@ -4,17 +4,14 @@
 .itemTitle {
   composes: destinyHeader from '../dim-ui/common.m.scss';
 
-  font-size: 20px;
+  font-size: 19px;
   flex: 1;
   overflow: hidden;
-  white-space: nowrap;
-  margin-right: 4px;
-  color: #000;
+  color: #fff;
   text-decoration: none;
-  text-overflow: ellipsis;
 
   :global(a) {
-    color: #000;
+    color: #fff;
     text-decoration: none;
   }
 
@@ -25,21 +22,18 @@
 
 // The container for the title and type/rarity
 .titleContainer {
-  font-size: 14px;
-  padding: 8px 16px 10px;
+  padding: 8px 10px;
   font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
-  color: #000;
+  color: #fff;
 
-  :global(.is-Uncommon) &,
-  :global(.is-Rare) &,
-  :global(.is-Legendary) & {
-    color: white;
+  :global(.is-Common) & {
+    color: #000;
 
     :global(a),
     :global(select),
     .itemTitle,
     .itemTitle :global(a) {
-      color: white;
+      color: #000;
     }
   }
 
@@ -60,6 +54,22 @@
   }
 }
 
+.masterwork {
+  background-image: url('../../images/masterworkHeader.png');
+  background-repeat: repeat-x;
+  background-size: cover;
+  background-position: top center;
+  :global(.is-Exotic) & {
+    background-image: url('../../images/exoticMasterworkHeader.png');
+  }
+  :global(.is-Legendary) & .itemTitle {
+    text-shadow: 0 0 3px black;
+  }
+  :global(.is-Exotic) & .itemTitle {
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  }
+}
+
 // The text under the name of the item (type, rarity)
 .subTitle {
   composes: flexRow from '../dim-ui/common.m.scss';
@@ -70,7 +80,12 @@
       opacity: 0.8;
     }
     &:last-child {
-      opacity: 0.4;
+      span {
+        opacity: 0.4;
+      }
+      :global(.app-icon) {
+        margin-left: 4px;
+      }
     }
   }
 }
@@ -82,17 +97,22 @@
 
 // Dark section under the situation
 .subSection {
-  padding: 8px 16px 10px;
+  padding: 8px 10px;
   border-bottom: 1px solid #444;
 }
 
 // The bar that shows element, power, and ammo types
 .powerInfo {
   composes: flexRow from '../dim-ui/common.m.scss';
-  padding: 8px 0 0 0;
-  text-transform: uppercase;
   align-items: center;
-  font-size: 14px;
+}
+
+.powerElement {
+  composes: flexRow from '../dim-ui/common.m.scss';
+  align-items: center;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
 }
 
 // Element icon
@@ -105,24 +125,31 @@
 }
 
 .arcIcon {
-  composes: element;
-  background-image: url(https://www.bungie.net/img/destiny_content/damage_types/destiny2/arc.png);
+  composes: powerElement;
+  color: $arc;
+
+  .element {
+    background-image: url(https://www.bungie.net/img/destiny_content/damage_types/destiny2/arc.png);
+  }
 }
 
 .voidIcon {
-  composes: element;
-  background-image: url(https://www.bungie.net/img/destiny_content/damage_types/destiny2/void.png);
-  filter: brightness(200%);
+  composes: powerElement;
+  color: $void;
+
+  .element {
+    background-image: url(https://www.bungie.net/img/destiny_content/damage_types/destiny2/void.png);
+    filter: brightness(200%);
+  }
 }
 
 .solarIcon {
-  composes: element;
-  background-image: url(https://www.bungie.net/img/destiny_content/damage_types/destiny2/thermal.png);
-}
+  composes: powerElement;
+  color: $solar;
 
-.powerElement {
-  composes: flexRow from '../dim-ui/common.m.scss';
-  align-items: center;
+  .element {
+    background-image: url(https://www.bungie.net/img/destiny_content/damage_types/destiny2/thermal.png);
+  }
 }
 
 // Ammo type section
@@ -132,6 +159,8 @@
   border-left: 1px solid #444;
   margin-left: 8px;
   padding-left: 8px;
+  text-transform: uppercase;
+  font-size: 14px;
 }
 
 .ammoIcon {
@@ -161,4 +190,29 @@
 .heavyAmmo {
   composes: ammoIcon;
   background-image: url('../../../destiny-icons//general/ammo_heavy.svg');
+}
+
+.requiredLevel {
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.extraStuff {
+  margin-left: 8px;
+  padding-left: 8px;
+  text-align: right;
+  flex: 1;
+
+  :global(.rating-icon) {
+    font-size: 20px !important;
+    vertical-align: text-bottom;
+  }
+}
+
+.primaryStatName {
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-left: 4px;
+  font-weight: normal;
+  color: white;
 }

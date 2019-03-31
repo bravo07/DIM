@@ -8,6 +8,7 @@ import { settings } from '../settings/settings';
 import ExpandedRating from './ExpandedRating';
 import styles from './NewItemPopupHeader.m.scss';
 import { DestinyAmmunitionType } from 'bungie-api-ts/destiny2';
+import { AppIcon, lockIcon } from '../shell/icons';
 
 export default function NewItemPopupHeader({
   item
@@ -19,6 +20,10 @@ export default function NewItemPopupHeader({
   const light = item.primStat ? item.primStat.value.toString() : undefined;
 
   // TODO: lock, track, rating, tag
+  // TODO: is the subheader too large?
+  // TODO: only show level if not all chars can get there?
+  // TODO: use destiny-icons and add the release icon on the corner??
+  // TODO: move the power stuff into the details tab???
 
   const classType =
     item.classTypeName !== 'unknown' &&
@@ -50,7 +55,7 @@ export default function NewItemPopupHeader({
 
   return (
     <div className={classNames(styles.itemHeader, `is-${item.tier}`)}>
-      <div className={styles.titleContainer}>
+      <div className={classNames(styles.titleContainer, { [styles.masterwork]: item.masterwork })}>
         <div className={styles.itemTitle}>
           <ExternalLink href={destinyDBLink(item)}>{item.name}</ExternalLink>
         </div>
@@ -60,16 +65,24 @@ export default function NewItemPopupHeader({
             {item.typeName}
           </div>
           {/* TODO: use localized tier */}
-          <div>{item.tier}</div>
+          <div>
+            <span>{item.tier}</span>
+            {/* TODO: this is too close to the close button */}
+            {item.locked && <AppIcon icon={lockIcon} />}
+          </div>
         </div>
       </div>
 
       <div className={styles.subSection}>
-        {item.equipRequiredLevel && <div>Requires Level {item.equipRequiredLevel}</div>}
+        {item.equipRequiredLevel > 0 && (
+          <div className={styles.requiredLevel}>Requires Level {item.equipRequiredLevel}</div>
+        )}
         <div className={styles.powerInfo}>
-          <div className={styles.powerElement}>
-            {item.dmg && item.dmg !== 'kinetic' && <div className={elements[item.dmg]} />} {light}{' '}
-            {item.primStat && item.primStat.stat.statName}
+          <div className={elements[item.dmg] || styles.powerElement}>
+            {item.dmg && item.dmg !== 'kinetic' && <div className={styles.element} />} {light}
+            {(!item.isDestiny2() || item.ammoType === 0) && (
+              <span className={styles.primaryStatName}>Power</span>
+            )}
           </div>
           {item.isDestiny2() && item.ammoType > 0 && (
             <div className={styles.ammo}>
@@ -77,28 +90,17 @@ export default function NewItemPopupHeader({
               {ammoNames[item.ammoType]}
             </div>
           )}
+          <div className={styles.extraStuff}>
+            {item.objectives && !item.hidePercentage && (
+              <div>{t('ItemService.PercentComplete', { percent: item.percentComplete })}</div>
+            )}
+
+            {item.taggable && <ItemTagSelector item={item} />}
+
+            {item.reviewable && <ExpandedRating item={item} />}
+          </div>
         </div>
       </div>
-
-      {item.objectives && !item.hidePercentage && (
-        <div>{t('ItemService.PercentComplete', { percent: item.percentComplete })}</div>
-      )}
-
-      {item.taggable && <ItemTagSelector item={item} />}
-
-      {item.reviewable && <ExpandedRating item={item} />}
-
-      {item.uniqueStack && (
-        <div>
-          {item.amount === item.maxStackSize
-            ? t('MovePopup.Subtitle', { amount: item.amount, context: 'Stackable_UniqueMax' })
-            : t('MovePopup.Subtitle', {
-                amount: item.amount,
-                maxStackSize: item.maxStackSize,
-                context: 'Stackable_Unique'
-              })}
-        </div>
-      )}
     </div>
   );
 }
