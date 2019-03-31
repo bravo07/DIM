@@ -89,7 +89,7 @@ class NewItemActions extends React.Component<Props, State> {
               moveItemTo={this.moveItemTo}
             />
           ))}
-          <div className="buttons">
+          <div className="locations">
             {canConsolidate && (
               <div
                 className="move-button move-consolidate"
@@ -109,7 +109,7 @@ class NewItemActions extends React.Component<Props, State> {
               </div>
             )}
             {item.infusionFuel && (
-              <div className="locations">
+              <div className="buttons">
                 <div
                   className={classNames('move-button', 'infuse-perk', item.bucket.sort, {
                     destiny2: item.isDestiny2()
@@ -122,7 +122,7 @@ class NewItemActions extends React.Component<Props, State> {
               </div>
             )}
             {item.comparable && (
-              <div className="locations">
+              <div className="buttons">
                 <div
                   className="move-button"
                   title={t('Compare.ButtonHelp')}
