@@ -29,10 +29,9 @@ export default class NewItemMoveLocation extends React.PureComponent<Props> {
 
     return (
       <div className="locations" key={store.id}>
-        <h2>
-          <img src={store.icon} /> {store.name}
-        </h2>
+        <h2>{store.name}</h2>
         <div className="buttons">
+          <img src={store.icon} />
           {vaultAction && (
             <div className="move-button move-vault" title={store.name} onClick={this.moveItem}>
               <span>{t('MovePopup.Vault')}</span>

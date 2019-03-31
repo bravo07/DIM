@@ -126,6 +126,10 @@
   }
 }
 
+.move-popup-dialog.new-popup[x-placement^='left'] > div:first-child {
+  flex-direction: row-reverse;
+}
+
 .move-popup-tabs {
   display: flex;
   justify-content: space-around;

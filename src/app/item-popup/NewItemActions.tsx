@@ -89,50 +89,51 @@ class NewItemActions extends React.Component<Props, State> {
               moveItemTo={this.moveItemTo}
             />
           ))}
-
-          {canConsolidate && (
-            <div
-              className="move-button move-consolidate"
-              title={t('MovePopup.Consolidate')}
-              onClick={this.consolidate}
-            >
-              <span>{t('MovePopup.Take')}</span>
-            </div>
-          )}
-          {canDistribute && (
-            <div
-              className="move-button move-distribute"
-              title={t('MovePopup.DistributeEvenly')}
-              onClick={this.distribute}
-            >
-              <span>{t('MovePopup.Split')}</span>
-            </div>
-          )}
-          {item.infusionFuel && (
-            <div className="locations">
+          <div className="buttons">
+            {canConsolidate && (
               <div
-                className={classNames('move-button', 'infuse-perk', item.bucket.sort, {
-                  destiny2: item.isDestiny2()
-                })}
-                onClick={this.infuse}
-                title={t('Infusion.Infusion')}
+                className="move-button move-consolidate"
+                title={t('MovePopup.Consolidate')}
+                onClick={this.consolidate}
               >
-                <span>{t('MovePopup.Infuse')}</span>
+                <span>{t('MovePopup.Take')}</span>
               </div>
-            </div>
-          )}
-          {item.comparable && (
-            <div className="locations">
+            )}
+            {canDistribute && (
               <div
-                className="move-button"
-                title={t('Compare.ButtonHelp')}
-                onClick={this.openCompare}
+                className="move-button move-distribute"
+                title={t('MovePopup.DistributeEvenly')}
+                onClick={this.distribute}
               >
-                <AppIcon icon={faClone} />
-                <span>{t('Compare.ButtonHelp')}</span>
+                <span>{t('MovePopup.Split')}</span>
               </div>
-            </div>
-          )}
+            )}
+            {item.infusionFuel && (
+              <div className="locations">
+                <div
+                  className={classNames('move-button', 'infuse-perk', item.bucket.sort, {
+                    destiny2: item.isDestiny2()
+                  })}
+                  onClick={this.infuse}
+                  title={t('Infusion.Infusion')}
+                >
+                  <span>{t('MovePopup.Infuse')}</span>
+                </div>
+              </div>
+            )}
+            {item.comparable && (
+              <div className="locations">
+                <div
+                  className="move-button"
+                  title={t('Compare.ButtonHelp')}
+                  onClick={this.openCompare}
+                >
+                  <AppIcon icon={faClone} />
+                  <span>{t('Compare.ButtonHelp')}</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </>
     );
