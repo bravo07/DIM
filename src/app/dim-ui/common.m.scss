@@ -1,0 +1,16 @@
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.destinyHeader {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  letter-spacing: 1px;
+}

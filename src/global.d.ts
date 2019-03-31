@@ -37,6 +37,8 @@ declare const $featureFlags: {
   d2LoadoutBuilder: boolean;
   /** Community-curated rolls (wish lists) */
   curatedRolls: boolean;
+  // New item popup
+  newItemPopup: boolean;
 };
 
 declare function ga(...params: string[]);

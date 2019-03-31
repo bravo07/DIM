@@ -5,7 +5,6 @@ import { Subscriptions } from '../rx-utils';
 import Popper from 'popper.js';
 import { RootState } from '../store/reducers';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import ClickOutside from '../dim-ui/ClickOutside';
 import ItemPopupHeader from './ItemPopupHeader';
 import { router } from '../../router';
@@ -14,6 +13,8 @@ import { setSetting } from '../settings/actions';
 import ItemPopupBody, { ItemPopupTab } from './ItemPopupBody';
 import './ItemPopupContainer.scss';
 import ItemTagHotkeys from './ItemTagHotkeys';
+import NewItemPopupHeader from './NewItemPopupHeader';
+import NewItemPopupBody from './NewItemPopupBody';
 
 interface ProvidedProps {
   boundarySelector?: string;
@@ -119,7 +120,13 @@ class ItemPopupContainer extends React.Component<Props, State> {
       return null;
     }
 
-    const header = (
+    const header = $featureFlags.newItemPopup ? (
+      <NewItemPopupHeader
+        item={item}
+        expanded={itemDetails}
+        onToggleExpanded={this.toggleItemDetails}
+      />
+    ) : (
       <ItemPopupHeader
         item={item}
         expanded={itemDetails}
@@ -127,7 +134,16 @@ class ItemPopupContainer extends React.Component<Props, State> {
       />
     );
 
-    const body = (
+    const body = $featureFlags.newItemPopup ? (
+      <NewItemPopupBody
+        item={item}
+        extraInfo={extraInfo}
+        tab={tab}
+        expanded={itemDetails}
+        onTabChanged={this.onTabChanged}
+        onToggleExpanded={this.toggleItemDetails}
+      />
+    ) : (
       <ItemPopupBody
         item={item}
         extraInfo={extraInfo}
@@ -139,18 +155,18 @@ class ItemPopupContainer extends React.Component<Props, State> {
     );
 
     return isPhonePortrait ? (
-      <Sheet onClose={this.onClose} header={header} sheetClassName="item-popup">
+      <Sheet onClose={this.onClose} header={header} sheetClassName={`item-popup is-${item.tier}`}>
         {body}
       </Sheet>
     ) : (
-      <div className="move-popup-dialog" ref={this.popupRef}>
+      <div className={`move-popup-dialog is-${item.tier}`} ref={this.popupRef}>
         <ClickOutside onClickOutside={this.onClose}>
           <ItemTagHotkeys item={item}>
             {header}
             {body}
           </ItemTagHotkeys>
         </ClickOutside>
-        <div className={classNames('arrow', `is-${item.tier}`)} />
+        <div className={`arrow is-${item.tier}`} />
       </div>
     );
   }

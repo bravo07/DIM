@@ -564,6 +564,7 @@
     "UpStack": "Increase up to the next full stack"
   },
   "MovePopup": {
+    "ActionsTab": "Actions",
     "Acquired": "This item is unlocked in collections.",
     "CantPullFromPostmaster": "You must go to the tower to retrieve this item.",
     "Consolidate": "Consolidate",

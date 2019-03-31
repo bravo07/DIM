@@ -3,22 +3,17 @@ import { DimItem } from '../inventory/item-types';
 import { t } from 'i18next';
 import ItemOverview from './ItemDetails';
 import { ItemPopupExtraInfo } from './item-popup';
-import ItemActions from './ItemActions';
 import classNames from 'classnames';
 import ItemReviews from '../item-review/ItemReviews';
 import { percent } from '../shell/filters';
 import { AppIcon } from '../shell/icons';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 import { Frame, Track, View, ViewPager } from 'react-view-pager';
-
-export const enum ItemPopupTab {
-  Actions,
-  Overview,
-  Reviews
-}
+import { ItemPopupTab } from './ItemPopupBody';
+import NewItemActions from './NewItemActions';
 
 /** The main portion of the item popup, with pages of info (Actions, Details, Reviews) */
-export default function ItemPopupBody({
+export default function NewItemPopupBody({
   item,
   failureStrings,
   extraInfo,
@@ -44,6 +39,11 @@ export default function ItemPopupBody({
   const itemDetails = showDetailsByDefault || expanded;
 
   const tabs = [
+    {
+      tab: ItemPopupTab.Actions,
+      title: t('MovePopup.ActionsTab'),
+      component: <NewItemActions item={item} />
+    },
     {
       tab: ItemPopupTab.Overview,
       title: t('MovePopup.OverviewTab'),
@@ -121,7 +121,6 @@ export default function ItemPopupBody({
             </button>
           </div>
         )}
-        <ItemActions item={item} />
       </div>
     </div>
   );
