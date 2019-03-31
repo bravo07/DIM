@@ -18,6 +18,7 @@ export default function NewItemPopupBody({
   failureStrings,
   extraInfo,
   tab,
+  isPhonePortrait,
   expanded,
   onTabChanged,
   onToggleExpanded
@@ -26,6 +27,7 @@ export default function NewItemPopupBody({
   failureStrings?: string[];
   extraInfo?: ItemPopupExtraInfo;
   tab: ItemPopupTab;
+  isPhonePortrait: boolean;
   expanded: boolean;
   onTabChanged(tab: ItemPopupTab): void;
   onToggleExpanded(): void;
@@ -40,16 +42,18 @@ export default function NewItemPopupBody({
 
   const tabs = [
     {
-      tab: ItemPopupTab.Actions,
-      title: t('MovePopup.ActionsTab'),
-      component: <NewItemActions item={item} />
-    },
-    {
       tab: ItemPopupTab.Overview,
       title: t('MovePopup.OverviewTab'),
       component: <ItemOverview item={item} extraInfo={extraInfo} />
     }
   ];
+  if (isPhonePortrait) {
+    tabs.unshift({
+      tab: ItemPopupTab.Actions,
+      title: t('MovePopup.ActionsTab'),
+      component: <NewItemActions item={item} />
+    });
+  }
   if (item.reviewable) {
     tabs.push({
       tab: ItemPopupTab.Reviews,
@@ -98,14 +102,14 @@ export default function NewItemPopupBody({
               <ViewPager>
                 <Frame className="frame" autoSize="height">
                   <Track
-                    currentView={tab}
+                    currentView={tab.toString()}
                     contain={false}
                     className="track"
                     onViewChange={onViewChange}
                     onRest={onRest}
                   >
                     {tabs.map((ta) => (
-                      <View key={ta.tab}>{ta.component}</View>
+                      <View key={ta.tab.toString()}>{ta.component}</View>
                     ))}
                   </Track>
                 </Frame>

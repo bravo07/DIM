@@ -11,8 +11,12 @@ import { storesSelector, sortedStoresSelector } from '../inventory/reducer';
 import { connect } from 'react-redux';
 import ItemMoveAmount from './ItemMoveAmount';
 import { createSelector } from 'reselect';
-import ItemMoveLocation from './ItemMoveLocation';
 import { showInfuse } from '../infuse/infuse';
+import NewItemMoveLocation from './NewItemMoveLocation';
+import styles from './NewItemActions.m.scss';
+import { AppIcon } from '../shell/icons';
+import { faClone } from '@fortawesome/free-regular-svg-icons';
+import { CompareService } from '../compare/compare.service';
 
 interface ProvidedProps {
   item: DimItem;
@@ -63,7 +67,7 @@ class NewItemActions extends React.Component<Props, State> {
     const maximum = this.maximumSelector(this.props);
 
     // TODO: compare, lock/unlock, links?
-    // TODO: equip set, gather dupes
+    // TODO: equip set, gather dupes, add to loadout
 
     return (
       <>
@@ -75,9 +79,9 @@ class NewItemActions extends React.Component<Props, State> {
             onAmountChanged={this.onAmountChanged}
           />
         )}
-        <div className="interaction">
+        <div className={styles.actions}>
           {stores.map((buttonStore) => (
-            <ItemMoveLocation
+            <NewItemMoveLocation
               key={buttonStore.id}
               item={item}
               store={buttonStore}
@@ -117,6 +121,18 @@ class NewItemActions extends React.Component<Props, State> {
               </div>
             </div>
           )}
+          {item.comparable && (
+            <div className="locations">
+              <div
+                className="move-button"
+                title={t('Compare.ButtonHelp')}
+                onClick={this.openCompare}
+              >
+                <AppIcon icon={faClone} />
+                <span>{t('Compare.ButtonHelp')}</span>
+              </div>
+            </div>
+          )}
         </div>
       </>
     );
@@ -153,6 +169,11 @@ class NewItemActions extends React.Component<Props, State> {
 
   private onAmountChanged = (amount: number) => {
     this.setState({ amount });
+  };
+
+  private openCompare = () => {
+    hideItemPopup();
+    CompareService.addItemsToCompare([this.props.item], true);
   };
 }
 

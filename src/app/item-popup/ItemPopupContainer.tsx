@@ -15,6 +15,7 @@ import './ItemPopupContainer.scss';
 import ItemTagHotkeys from './ItemTagHotkeys';
 import NewItemPopupHeader from './NewItemPopupHeader';
 import NewItemPopupBody from './NewItemPopupBody';
+import NewItemActions from './NewItemActions';
 
 interface ProvidedProps {
   boundarySelector?: string;
@@ -139,6 +140,7 @@ class ItemPopupContainer extends React.Component<Props, State> {
         item={item}
         extraInfo={extraInfo}
         tab={tab}
+        isPhonePortrait={isPhonePortrait}
         expanded={itemDetails}
         onTabChanged={this.onTabChanged}
         onToggleExpanded={this.toggleItemDetails}
@@ -159,11 +161,28 @@ class ItemPopupContainer extends React.Component<Props, State> {
         {body}
       </Sheet>
     ) : (
-      <div className={`move-popup-dialog is-${item.tier}`} ref={this.popupRef}>
+      <div
+        className={`move-popup-dialog is-${item.tier} ${
+          $featureFlags.newItemPopup ? 'new-popup' : ''
+        }`}
+        ref={this.popupRef}
+      >
         <ClickOutside onClickOutside={this.onClose}>
           <ItemTagHotkeys item={item}>
-            {header}
-            {body}
+            {$featureFlags.newItemPopup ? (
+              <>
+                {$featureFlags.newItemPopup && !isPhonePortrait && <NewItemActions item={item} />}
+                <div>
+                  {header}
+                  {body}
+                </div>
+              </>
+            ) : (
+              <>
+                {header}
+                {body}
+              </>
+            )}
           </ItemTagHotkeys>
         </ClickOutside>
         <div className={`arrow is-${item.tier}`} />

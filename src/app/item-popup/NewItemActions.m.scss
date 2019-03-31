@@ -1,0 +1,27 @@
+@import '../../scss/variables.scss';
+
+.actions {
+  composes: flexColumn from '../dim-ui/common.m.scss';
+  padding: 8px 10px;
+
+  :global {
+    // TODO: break these out
+    .locations {
+      h2 {
+        img {
+          height: 32px;
+          width: 32px;
+        }
+        font-size: 16px;
+      }
+      .buttons {
+        display: flex;
+        flex-direction: row;
+        > div {
+          flex: 1;
+          border: 1px solid orange;
+        }
+      }
+    }
+  }
+}

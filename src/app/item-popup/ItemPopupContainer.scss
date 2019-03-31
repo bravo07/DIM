@@ -29,6 +29,20 @@
     --backgroundColor: 0, 0%, 7%;
   }
 
+  &.new-popup {
+    width: 560px;
+    > div:first-child {
+      display: flex;
+      flex-direction: row;
+      > div:first-child {
+        flex: 1;
+      }
+      > div:last-child {
+        width: 375px;
+      }
+    }
+  }
+
   > div:first-child {
     height: 100%;
     background-color: #{'hsl(var(--backgroundColor))'};
